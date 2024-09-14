@@ -1,5 +1,6 @@
 package com.example.receitaslasalle
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             if ((username.text.toString().equals("Jonathan")) && (pass.text.toString().equals("1234"))) {
                 Toast.makeText(this, "Deu certo!", Toast.LENGTH_LONG).show()
+                var intent = Intent(applicationContext, Tela2::class.java)
+                startActivity(intent)
             }
         }
     }
