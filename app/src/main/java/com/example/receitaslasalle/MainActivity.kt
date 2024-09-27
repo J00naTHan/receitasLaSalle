@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             if ((username.text.toString().equals("Jonathan")) && (pass.text.toString().equals("1234"))) {
-                Toast.makeText(this, "Deu certo!", Toast.LENGTH_LONG).show()
                 var intent = Intent(applicationContext, Tela2::class.java)
                 startActivity(intent)
             }
