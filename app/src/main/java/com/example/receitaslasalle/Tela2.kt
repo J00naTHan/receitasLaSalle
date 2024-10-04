@@ -15,7 +15,7 @@ class Tela2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
 
-        val dataList = listOf( "item 1", "item 2", "item 3", "item 4", "item 5")
+        val dataList = listOf( "Lasanha", "Risoto", "Strogonoff", "Pizza", "Risoto de camarão")
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = MyAdapter(dataList)
