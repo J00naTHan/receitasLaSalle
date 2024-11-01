@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         if (savedPass != "") pass.setText(savedPass)
 
         isConected.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked == true) {
+            if(isChecked) {
                 val sharedPreferences = getSharedPreferences("rememberAccount", MODE_PRIVATE).edit()
                 sharedPreferences.putString("username", username.text.toString())
                 sharedPreferences.putString("password", pass.text.toString())
