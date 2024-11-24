@@ -34,6 +34,8 @@ class MyAdapter(private var dataList: List<Recipe>) : RecyclerView.Adapter<MyAda
         return MyViewHolder(view)
     }
 
+
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val recipe = dataList[position]
         holder.textViewName.text = recipe.name
