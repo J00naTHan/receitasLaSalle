@@ -45,7 +45,7 @@ class Register : AppCompatActivity() {
                 Toast.makeText(this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show()
 
                 // Retorna para a tela de login
-                val intent = Intent(this, Login::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 intent.putExtra("username", username)
                 startActivity(intent)
                 finish()

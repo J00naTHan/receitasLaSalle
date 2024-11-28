@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("org.jetbrains.kotlin.kapt") // Adicione o plugin 'kapt'
+    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.google.gms.google.services) // Adicione o plugin 'kapt'
 }
 
 android {
@@ -48,11 +49,12 @@ dependencies {
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation ("com.google.firebase:firebase-auth-ktx:22.1.1")
-    implementation ("com.google.android.gms:play-services-auth:20.7.0") // Para login social (Google)
+    implementation ("com.google.firebase:firebase-auth")
+    // Para login social (Google)
 
     // Dependências do Glide
     implementation("com.github.bumptech.glide:glide:4.15.1")

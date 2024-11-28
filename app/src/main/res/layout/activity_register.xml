@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center"> <!-- Centraliza o conteúdo -->
 
     <EditText
         android:id="@+id/usernameInput"
@@ -33,5 +34,4 @@
         android:layout_height="wrap_content"
         android:text="Registrar"
         android:layout_marginTop="16dp" />
-
 </LinearLayout>
