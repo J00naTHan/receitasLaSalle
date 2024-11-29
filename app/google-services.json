@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "753821357331",
+    "project_id": "dev-mobile-web",
+    "storage_bucket": "dev-mobile-web.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753821357331:android:999e420f2c1cbd7313f6e6",
+        "android_client_info": {
+          "package_name": "com.example.receitaslasalle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBENm_iI6_GwqV6vdL-mGbWsjr1kOko5V0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
