@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.receitaslasalle.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -26,14 +27,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tela2)
+        setContentView(R.layout.activity_main) // Alterar para activity_main.xml
+
 
         recyclerView = findViewById(R.id.recyclerView)
         searchBar = findViewById(R.id.search_bar)
         fabAddRecipe = findViewById(R.id.fab_add_recipe)
 
+        // Inicializar a lista filtrada
         filteredList.addAll(dataList)
 
+        // Configurar o RecyclerView
         adapter = RecipeAdapter(filteredList)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -49,14 +53,15 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // Botão para adicionar nova receita
+        // Botão flutuante para adicionar receitas
         fabAddRecipe.setOnClickListener {
             Toast.makeText(this, "Adicionar nova receita", Toast.LENGTH_SHORT).show()
-            // Adicione aqui a lógica para abrir uma tela ou diálogo para inserir receitas
+            // Adicione aqui a lógica para abrir um formulário de nova receita
         }
     }
 
     private fun filterList(query: String) {
+        // Filtrar receitas com base na consulta
         filteredList.clear()
         if (query.isEmpty()) {
             filteredList.addAll(dataList)
