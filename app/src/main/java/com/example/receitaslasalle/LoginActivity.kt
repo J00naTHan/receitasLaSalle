@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.receitaslasalle.config.DBHelper
 
 class LoginActivity : AppCompatActivity() {
 
@@ -52,10 +54,26 @@ class LoginActivity : AppCompatActivity() {
         }
 
         register.setOnClickListener {
-            var intent = Intent(applicationContext, Register::class.java)
-            intent.putExtra("username", username.text.toString())
-            intent.putExtra("password", pass.text.toString())
-            startActivity(intent)
+
+            loginButton.setOnClickListener {
+                val usernameInput = username.text.toString()
+                val passwordInput = pass.text.toString()
+
+                // Verificar as credenciais no banco de dados
+                val dbHelper = DBHelper(applicationContext)
+
+                // Chama o método validarLogin passando o username e password
+                val isValid = dbHelper.validarLogin(usernameInput, passwordInput)
+
+                if (isValid) {
+                    // Se o login for válido, vai para a MainActivity
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // Se o login for inválido, exibe uma mensagem de erro
+                    Toast.makeText(applicationContext, "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show()
+                    }
+            }
         }
     }
 }

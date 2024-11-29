@@ -1,3 +1,4 @@
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.receitaslasalle.R
+import com.example.receitaslasalle.models.Receita
+import com.example.receitaslasalle.config.DBHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -16,26 +19,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchBar: EditText
     private lateinit var fabAddRecipe: FloatingActionButton
 
-    private val dataList = mutableListOf(
-        "Receita de Bolo",
-        "Receita de Lasanha",
-        "Receita de Salada",
-        "Receita de Pudim"
-    )
+    private lateinit var dbHelper: DBHelper
+    private var recipesList = mutableListOf<Receita>()
+    private var filteredList = mutableListOf<Receita>()
 
-    private val filteredList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) // Alterar para activity_main.xml
-
+        setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recyclerView)
         searchBar = findViewById(R.id.search_bar)
         fabAddRecipe = findViewById(R.id.fab_add_recipe)
 
-        // Inicializar a lista filtrada
-        filteredList.addAll(dataList)
+        dbHelper = DBHelper(this)  // Inicializa o DBHelper
+
+        // Carregar todas as receitas do banco de dados
+        loadRecipes()
 
         // Configurar o RecyclerView
         adapter = RecipeAdapter(filteredList)
@@ -55,20 +55,31 @@ class MainActivity : AppCompatActivity() {
 
         // Botão flutuante para adicionar receitas
         fabAddRecipe.setOnClickListener {
-            Toast.makeText(this, "Adicionar nova receita", Toast.LENGTH_SHORT).show()
-            // Adicione aqui a lógica para abrir um formulário de nova receita
-
+            // Lógica para abrir uma nova Activity para adicionar receita
+            val intent = Intent(this, NovaReceitaActivity::class.java)
+            startActivity(intent)
         }
+    }
+
+    private fun loadRecipes() {
+        // Buscar todas as receitas do banco de dados
+
+        val recipes = dbHelper.getAllRecipes()
+        recipesList.clear()
+        recipesList.addAll(recipes)
+        filteredList.clear()
+        filteredList.addAll(recipesList)
+        adapter.notifyDataSetChanged()
     }
 
     private fun filterList(query: String) {
         // Filtrar receitas com base na consulta
         filteredList.clear()
         if (query.isEmpty()) {
-            filteredList.addAll(dataList)
+            filteredList.addAll(recipesList)
         } else {
-            filteredList.addAll(dataList.filter { it.contains(query, ignoreCase = true) })
+            filteredList.addAll(recipesList.filter { it.nome.contains(query, ignoreCase = true) })
         }
         adapter.notifyDataSetChanged()
-    }
+        }
 }

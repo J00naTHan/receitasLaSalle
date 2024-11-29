@@ -4,8 +4,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.receitaslasalle.R
-import com.example.receitaslasalle.firebase.ReceitaRepository
 import com.example.receitaslasalle.models.Receita
+import com.example.receitaslasalle.config.DBHelper
 
 class NovaReceitaActivity : AppCompatActivity() {
 
@@ -31,19 +31,24 @@ class NovaReceitaActivity : AppCompatActivity() {
             if (nome.isNotEmpty() && descricao.isNotEmpty() && chefe.isNotEmpty()) {
                 val receita = Receita(nome = nome, descricao = descricao, chefe = chefe)
 
-                val repository = ReceitaRepository()
-                repository.salvarReceita(receita,
-                    onSuccess = {
+                // Usando DBHelper para salvar a receita no SQLite
+                val dbHelper = DBHelper(applicationContext)
+
+                try {
+                    val isSaved = dbHelper.salvarReceita(receita)
+
+                    if (isSaved) {
                         Toast.makeText(this, "Receita salva com sucesso!", Toast.LENGTH_SHORT).show()
                         finish() // Fecha a tela após salvar
-                    },
-                    onFailure = { exception ->
-                        Toast.makeText(this, "Erro ao salvar receita: ${exception.message}", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this, "Erro ao salvar receita. Tente novamente.", Toast.LENGTH_LONG).show()
                     }
-                )
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Erro ao salvar receita: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             } else {
                 Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
             }
+            }
         }
-    }
 }
