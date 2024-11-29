@@ -1,3 +1,4 @@
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,22 @@ class RecipeAdapter(private val recipes: List<String>) :
         return RecipeViewHolder(view)
     }
 
+
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        // Vincular dados ao layout
-        holder.textView.text = recipes[position]
+        holder.textView.text = recipes[position].nome
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, NovaReceitaActivity::class.java)
+            intent.putExtra("RECIPE_NAME", recipes[position].nome)
+            intent.putExtra("RECIPE_DESCRIPTION", recipes[position].descricao)
+            intent.putExtra("RECIPE_CHEF", recipes[position].chefe)
+            holder.itemView.context.startActivity(intent)
+        }
     }
+
+
+
+
 
     override fun getItemCount(): Int {
         return recipes.size

@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         fabAddRecipe.setOnClickListener {
             Toast.makeText(this, "Adicionar nova receita", Toast.LENGTH_SHORT).show()
             // Adicione aqui a lógica para abrir um formulário de nova receita
+
         }
     }
 
