@@ -1,41 +1,51 @@
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.receitaslasalle.R
+import com.example.receitaslasalle.models.Receita
 
 class RecipeDetailActivity : AppCompatActivity() {
+
+    private lateinit var recipeNameTextView: TextView
+    private lateinit var recipeDescriptionTextView: TextView
+    private lateinit var recipeChefTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_detail)
 
         // Obter referências aos TextViews
-        val recipeNameTextView: TextView = findViewById(R.id.textRecipeName)
-        val recipeDescriptionTextView: TextView = findViewById(R.id.textRecipeDescription)
-        val recipeIngredientsTextView: TextView = findViewById(R.id.textRecipeIngredients)
+        recipeNameTextView = findViewById(R.id.textRecipeName)
+        recipeDescriptionTextView = findViewById(R.id.textRecipeDescription)
+        recipeChefTextView = findViewById(R.id.textRecipeChef)
 
-        // Obter os dados passados pela Intent
-        val recipeId = intent.getIntExtra("RECIPE_ID", -1)
+        // Recuperar os dados passados via Intent
+        val recipeId = intent.getStringExtra("RECIPE_ID") ?: "ID não disponível"
+        val recipeName = intent.getStringExtra("RECIPE_NAME") ?: "Nome não disponível"
+        val recipeDescription = intent.getStringExtra("RECIPE_DESCRIPTION") ?: "Descrição não disponível"
+        val recipeChef = intent.getStringExtra("RECIPE_CHEF") ?: "Chefe não disponível"
 
-        // Carregar a receita do banco de dados (substituir pelo seu método de banco)
-        val recipe = getRecipeById(recipeId)
+        // Exibir os dados nas TextViews
+        recipeNameTextView.text = recipeName
+        recipeDescriptionTextView.text = recipeDescription
+        recipeChefTextView.text = recipeChef
 
-        // Exibir os detalhes da receita
-        recipeNameTextView.text = recipe?.name ?: "Receita não encontrada"
-        recipeDescriptionTextView.text = recipe?.description ?: "Descrição não disponível"
-        recipeIngredientsTextView.text = recipe?.ingredients ?: "Ingredientes não disponíveis"
+        // Carregar a receita do banco de dados (substitua pela sua consulta real ao banco)
+        // Por exemplo, usando o método de banco getRecipeById() para buscar os detalhes completos.
+        // Exemplo de código fictício, apenas para ilustrar:
+        val recipe = getRecipeById(recipeId.toInt())
+
+        // Exibir mais detalhes se necessário
+        recipe?.let {
+            recipeNameTextView.text = it.nome
+            recipeDescriptionTextView.text = it.descricao
+            recipeChefTextView.text = it.chefe
+        }
     }
 
     // Simula o carregamento de uma receita do banco de dados
-    private fun getRecipeById(id: Int): Recipe? {
-        // Substituir pelo seu método real de banco de dados
-        val sampleRecipes = listOf(
-            Recipe(1, "Bolo de Chocolate", "Um delicioso bolo de chocolate.", "Farinha, Açúcar, Chocolate, Ovos"),
-            Recipe(2, "Lasanha", "Lasanha caseira com molho especial.", "Massa, Molho, Queijo, Carne Moída")
-        )
-        return sampleRecipes.find { it.id == id }
-    }
+    private fun getRecipeById(id: Int): Receita? {
+        // Aqui você deve substituir por uma consulta real ao banco SQLite
+        return Receita(id = id, nome = "Exemplo de Receita", descricao = "Descrição da Receita", chefe = "Chef Exemplo")
+        }
 }
-
-// Classe de modelo para receita (substituir pela sua implementação)
-data class Recipe(val id: Int, val name: String, val description: String, val ingredients: String)

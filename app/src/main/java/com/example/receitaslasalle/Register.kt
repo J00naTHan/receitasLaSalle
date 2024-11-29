@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.receitaslasalle.config.DBHelper
 
 class Register : AppCompatActivity() {
 
@@ -36,20 +37,32 @@ class Register : AppCompatActivity() {
             val password = passwordInput.text.toString()
             val confirmPassword = confirmPasswordInput.text.toString()
 
+            // Verificar se todos os campos estão preenchidos
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
             } else if (password != confirmPassword) {
                 Toast.makeText(this, "As senhas não coincidem.", Toast.LENGTH_SHORT).show()
             } else {
-                // Simulação de registro bem-sucedido
-                Toast.makeText(this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show()
+                // Verificar se o usuário já existe no banco de dados
+                val dbHelper = DBHelper(this)
+                if (dbHelper.userExists(username)) {
+                    Toast.makeText(this, "Usuário já existe.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Salvar o usuário no banco de dados
+                    val success = dbHelper.registerUser(username, password)
+                    if (success) {
+                        Toast.makeText(this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show()
 
-                // Retorna para a tela de login
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.putExtra("username", username)
-                startActivity(intent)
-                finish()
+                        // Retorna para a tela de login
+                        val intent = Intent(this, LoginActivity::class.java)
+                        intent.putExtra("username", username)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Erro ao registrar o usuário.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
             }
         }
-    }
 }
