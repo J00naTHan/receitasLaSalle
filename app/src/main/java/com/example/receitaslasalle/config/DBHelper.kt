@@ -67,7 +67,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val cursor = db.query(
             DBHelper.TABLE_USERS, // Nome da tabela
             null, // Seleciona todas as colunas
-            "${DBHelper.COLUMN_USER_ID} = ?", // Condição WHERE
+            "${DBHelper.COLUMN_USER_NAME} = ?", // Condição WHERE
             arrayOf(username), // Parâmetros para o WHERE
             null, // Agrupamento
             null, // Ordem
